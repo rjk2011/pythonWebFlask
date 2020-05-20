@@ -1,5 +1,7 @@
 from flask import Flask, render_template,jsonify
 import pymongo
+import json
+config_data = {}
 
 app = Flask(__name__)
 
@@ -21,6 +23,24 @@ def makeStructure(title, source):
     return jsonify({'source' : source, 
                     'title':title
      })
+
+
+
+
+@app.route('/config')
+def config():
+    with open('config.json') as config_file:
+        config_data = json.load(config_file)
+    return config_data
+
+
+@app.route('/config/mail')
+def configMail():
+    with open('config.json') as config_file:
+        config_data = json.load(config_file)
+    return config_data["mail_settings"]
+
+
 
 
 @app.route('/mongo/read/<id>',methods=['GET'])
